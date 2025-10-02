@@ -9,8 +9,9 @@ Requirements:
 - Low latency (sub-second responses for short prompts)
 - Fits into budget cloud GPU (≤ $0.50/hr)
 
-Model can be randomly chosen:
-LLaMA-2-7B | Mistral-7B-Instruct-v0.2
+Models chosen via https://huggingface.co:
+[LLaMA-2-7B](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)
+[Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
 
 ## 2. LLM serving engines
 
