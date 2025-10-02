@@ -15,7 +15,7 @@ LLaMA-2-7B | Mistral-7B-Instruct-v0.2
 ## 2. LLM serving engines
 
 Requirements:
-- Supports NVIDIA
+- Supports NVIDIA (optional CUDA)
 - Easy to set up
 - API integration, simple API access
 
