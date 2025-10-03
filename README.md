@@ -22,3 +22,11 @@ Requirements:
 
 Ollama | vLLM
 
+Steps:
+1. [x] Run/test llms locally
+2. [] Create/use a docker image
+3. [] Choose cloud GPU offers
+4. [] Setup cloud k8s
+5. [] Deploy the service
+6. [] Expose the service
+7. [] Setup monitoring
