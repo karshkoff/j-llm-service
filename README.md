@@ -3,7 +3,7 @@
 ## 1. LLM model
 
 Requirements:
-- 1B-7B model
+- 1B-7B model (approx. 2GB-16GB memory)
 - Run on 1 GPU (cloud GPU)
 - Handles basic text completion/chat
 - Low latency (sub-second responses for short prompts)
