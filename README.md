@@ -11,7 +11,7 @@ Requirements:
 
 Models chosen via https://huggingface.co:
 [LLaMA-2-7B](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)
-[Mistral-7B-Instruct-v0.2](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2)
+[gemma3:270m](https://huggingface.co/google/gemma-3-270m)
 
 ## 2. LLM serving engines
 
@@ -21,6 +21,7 @@ Requirements:
 - API integration, simple API access
 
 Ollama | vLLM
+https://github.com/alpine-docker/ollama
 
 Steps:
 1. [x] Run/test llms locally
