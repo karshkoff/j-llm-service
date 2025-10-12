@@ -2,21 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: j-llm-ingress
-  namespace: ollama
+  namespace: kube-system
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    # alb.ingress.kubernetes.io/inbound-cidrs:
-    # # ExternalDNS annotation to create A record
-    # external-dns.alpha.kubernetes.io/hostname: chat.leazardlabs.site
 spec:
   ingressClassName: alb
-  tls:
-    - hosts:
-      - "*.leazardlabs.site"
   rules:
-  - http:
+  - host: chat.leazardlabs.site
+    http:
       paths:
       - path: /
         pathType: Prefix
