@@ -31,3 +31,15 @@ Steps:
 5. [] Deploy the service
 6. [] Expose the service
 7. [] Setup monitoring
+
+## Usage
+
+1. Env vars:
+
+    export AWS_PROFILE=ak-dev
+    export AWS_REGION=us-east-1
+    export EKS_NAME=j-llm
+
+2. aws eks update-kubeconfig --name ${EKS_NAME} --region ${AWS_REGION} --profile ${AWS_PROFILE} --alias ${EKS_NAME}
+3. kubectl config use-context j-llm
+4. kubectl apply -f deploy/
