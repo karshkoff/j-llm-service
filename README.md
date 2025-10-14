@@ -43,3 +43,7 @@ Steps:
 2. aws eks update-kubeconfig --name ${EKS_NAME} --region ${AWS_REGION} --profile ${AWS_PROFILE} --alias ${EKS_NAME}
 3. kubectl config use-context j-llm
 4. kubectl apply -f deploy/
+
+## Install
+
+1. helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f values.yaml -n j-llm

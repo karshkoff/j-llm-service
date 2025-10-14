@@ -31,3 +31,6 @@ spec:
             name: kube-prometheus-stack-grafana
             port:
               number: 80
+        backendConfig:
+          annotations:
+            alb.ingress.kubernetes.io/healthcheck-path: /api/health
