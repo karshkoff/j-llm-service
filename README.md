@@ -32,51 +32,65 @@ Engines:
 
 1. Env vars:
 
-`export AWS_PROFILE=ak-dev`
+```
+export AWS_PROFILE=ak-dev
+```
 
-`export AWS_REGION=us-east-1`
+```
+export AWS_REGION=us-east-1
+```
 
-`export EKS_NAME=j-llm`
+```
+export EKS_NAME=j-llm
+```
 
 2. Update kubeconfig
 
-`aws eks update-kubeconfig --name ${EKS_NAME} --region ${AWS_REGION} --profile ${AWS_PROFILE} --alias ${EKS_NAME}`
+```
+aws eks update-kubeconfig --name ${EKS_NAME} --region ${AWS_REGION} --profile ${AWS_PROFILE} --alias ${EKS_NAME}
+```
 
 3. Chose cluster context
 
-`kubectl config use-context j-llm`
+```
+kubectl config use-context j-llm
+```
 
 4. Deploy Ollama
 
-`kubectl apply -f deploy`
+```
+kubectl apply -f deploy
+```
 
 ### Monitoring (move to infra)
 
-`helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f values.yaml -n j-llm`
+```
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f values.yaml -n j-llm
+```
 
 ### Local test
 
 1. Pull the gemma3:270m model
 
-`
+```
 curl http://localhost:11434/api/pull -d '{
   "model": "gemma3:270m",
 }'
-`
+```
 
 (Optional) Ollama API, Generate completion
 
-`
+```
 curl http://localhost:11434/api/generate -d '{
   "model": "llama3.2",
   "prompt": "Why is the sky blue?",
   "stream": false
 }'
-`
+```
 
 3. Install open-webui
 
-`
+```
 docker run -d \
   -p 3030:8080 \
   -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
@@ -84,4 +98,4 @@ docker run -d \
   --name open-webui \
   --restart always \
   ghcr.io/open-webui/open-webui:main
-`
+```
