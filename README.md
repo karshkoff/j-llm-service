@@ -47,3 +47,22 @@ Steps:
 ## Install
 
 1. helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f values.yaml -n j-llm
+
+2. Pull gemma3:270m model
+
+`
+curl http://localhost:11434/api/pull -d '{
+  "model": "gemma3:270m",
+
+}'
+`
+
+3. Generate completion API
+
+`
+curl http://localhost:11434/api/generate -d '{
+  "model": "llama3.2",
+  "prompt": "Why is the sky blue?",
+  "stream": false
+}'
+`
