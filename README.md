@@ -1,4 +1,4 @@
-# This is a simple chat completion service
+# This is a simple chat/completion service powered by an LLM
 
 ## Requirements
 
