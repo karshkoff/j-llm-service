@@ -73,7 +73,7 @@ helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f
 1. Pull the gemma3:270m model
 
 ```
-curl http://localhost:11434/api/pull -d '{
+curl localhost:11434/api/pull -d '{
   "model": "gemma3:270m",
 }'
 ```
@@ -81,11 +81,17 @@ curl http://localhost:11434/api/pull -d '{
 (Optional) Ollama API, Generate completion
 
 ```
-curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2",
+curl localhost:8088/api/generate -d '{
+  "model": "gemma3:270m",
   "prompt": "Why is the sky blue?",
   "stream": false
 }'
+```
+
+2. Pull prometheus metrics
+
+```
+curl localhost:8088/metrics
 ```
 
 3. Install open-webui

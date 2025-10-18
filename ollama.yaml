@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+  namespace: j-llm
+spec:
+  selector:
+    matchLabels:
+      app: ollama
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+      - name: ollama
+        image: alpine/ollama
+        ports:
+        - containerPort: 11434
+        env:
+        - name: OLLAMA_HOST
+          value: "0.0.0.0"
+      - name: ollama-exporter
+        image: your-dockerhub-username/ollama-exporter:latest  # <-- replace with your built image
+        env:
+        - name: OLLAMA_URL
+          value: "http://localhost:11434"
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-svc
+  namespace: j-llm
+spec:
+  type: NodePort
+  selector:
+    app: ollama
+  ports:
+  - name: ollama
+    port: 11434
+    targetPort: 11434
+  - name: exporter
+    port: 8000
+    targetPort: 8000
