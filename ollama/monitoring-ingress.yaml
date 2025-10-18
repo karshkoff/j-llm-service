@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: j-llm-ingress
-  namespace: kube-system
+  namespace: monitoring
   annotations:
     alb.ingress.kubernetes.io/load-balancer-name: j-llm-alb
     alb.ingress.kubernetes.io/scheme: internet-facing
@@ -11,23 +11,6 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-  - host: ollama.leazardlabs.site
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ollama-svc
-            port:
-              number: 11434
-      - path: /metrics
-        pathType: Prefix
-        backend:
-          service:
-            name: ollama-exporter-svc
-            port:
-              number: 8088
   - host: grafana.leazardlabs.site
     http:
       paths:
