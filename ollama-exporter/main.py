@@ -1,6 +1,6 @@
 import os
 import time
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from prometheus_client import (
     Counter,
     Gauge,
@@ -109,5 +109,4 @@ async def generate(request: Request):
 
 @app.get("/metrics")
 def metrics():
-    """Expose Prometheus metrics"""
-    return generate_latest(), 200, {"Content-Type": CONTENT_TYPE_LATEST}
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-exporter-svc
+  namespace: ollama
+  labels:
+    app: ollama
+spec:
+  type: NodePort
+  ports:
+  - name: metrics
+    port: 8088
+    targetPort: 8088
+  selector:
+    app: ollama
