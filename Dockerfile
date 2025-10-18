@@ -10,12 +10,10 @@ ENV OLLAMA_MODEL="gemma3:270m"
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock /app/
-COPY ollama_exporter.py /app
+COPY ollama-exporter/ /app/
 
 RUN uv sync --frozen
 
 EXPOSE 8088
 
-# FastAPI app with uvicorn
-CMD ["uvicorn", "ollama_exporter:app", "--host", "0.0.0.0", "--port", "8088"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8088"]
