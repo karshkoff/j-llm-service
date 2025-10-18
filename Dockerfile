@@ -5,7 +5,6 @@ RUN apk add --no-cache curl \
 
 ENV PATH="/root/.local/bin/:$PATH"
 ENV PATH="/app/.venv/bin:$PATH"
-ENV OLLAMA_URL="http://host.docker.internal:11434"
 ENV OLLAMA_MODEL="gemma3:270m"
 
 WORKDIR /app

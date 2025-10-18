@@ -34,7 +34,7 @@ LATENCY = Histogram(
 )
 
 
-@app.post("/api/generate")
+@app.post("/exporter/generate")
 async def generate(request: Request):
     """
     Receive a text generation request, forward to Ollama /generate,
@@ -110,3 +110,12 @@ async def generate(request: Request):
 @app.get("/metrics")
 def metrics():
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+
+@app.get("/")
+def healthcheck():
+    """
+    Simple healthcheck endpoint for ALB or Kubernetes.
+    Returns HTTP 200 with a short message.
+    """
+    return {"status": "ok", "service": "ollama-exporter"}

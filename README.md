@@ -105,3 +105,39 @@ docker run -d \
   --restart always \
   ghcr.io/open-webui/open-webui:main
 ```
+
+### Test 'prod'
+
+1. Ollama pull gemma3:270m
+
+```
+curl https://ollama.leazardlabs.site/api/pull -d '{
+  "model": "gemma3:270m"
+}'
+```
+
+2. Verify endpoints
+
+```
+curl https://ollama.leazardlabs.site/api/generate -d '{
+  "model": "gemma3:270m",
+  "prompt": "Why is the sky blue?",
+  "stream": false
+}'
+```
+
+3. Genereate a completion for metrics (ollama-exporter)
+
+```
+curl https://ollama.leazardlabs.site/exporter/generate -d '{
+  "model": "gemma3:270m",
+  "prompt": "Why is the sky blue?",
+  "stream": false
+}'
+```
+
+4. Verify ollama-exporter metrics
+
+```
+curl https://ollama.leazardlabs.site/metrics
+```
