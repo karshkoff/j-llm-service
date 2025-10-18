@@ -65,7 +65,7 @@ kubectl apply -f deploy
 ### Monitoring (move to infra)
 
 ```
-helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f values.yaml -n j-llm
+helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace=monitoring --create-namespace
 ```
 
 ### Local test
