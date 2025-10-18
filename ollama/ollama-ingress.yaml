@@ -7,7 +7,7 @@ metadata:
     alb.ingress.kubernetes.io/load-balancer-name: j-llm-alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/inbound-cidrs: '188.91.152.191/32'
+    alb.ingress.kubernetes.io/inbound-cidrs: "${ALLOW_IP}"
 spec:
   ingressClassName: alb
   rules:
