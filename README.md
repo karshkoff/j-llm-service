@@ -141,3 +141,14 @@ curl https://ollama.leazardlabs.site/exporter/generate -d '{
 ```
 curl https://ollama.leazardlabs.site/metrics
 ```
+
+5. Connect local openwebui
+
+```
+docker run -d --rm \
+  -p 3030:8080 \
+  -e OLLAMA_BASE_URL=https://ollama.leazardlabs.site \
+  -v open-webui:/app/backend/data \
+  --name open-webui \
+  ghcr.io/open-webui/open-webui:main
+```
