@@ -62,6 +62,18 @@ kubectl config use-context j-llm
 kubectl apply -f deploy
 ```
 
+5. Deploy ingresses
+
+export ALLOW_IP=
+
+```
+envsubst < ollama/ollama-ingress.yaml | kubectl apply -f -
+```
+
+```
+envsubst < ollama/monitoring-ingress.yaml | kubectl apply -f -
+```
+
 ### Monitoring (move to infra)
 
 ```
@@ -151,4 +163,8 @@ docker run -d --rm \
   -v open-webui:/app/backend/data \
   --name open-webui \
   ghcr.io/open-webui/open-webui:main
+```
+
+6. Grafana ingress
+
 ```
