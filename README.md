@@ -144,6 +144,20 @@ curl https://ollama.leazardlabs.site/metrics
 
 7. Monitoring dashboard
 
+Add grafana dashboard:
+
+```
+export GRAFANA_PSWD=$(kubectl get secret -n monitoring prometheus-stack-grafana \
+  -o jsonpath="{.data.admin-password}" | base64 --decode; echo -n)
+```
+
+```
+curl -u admin:$GRAFANA_PSWD \
+  -H "Content-Type: application/json" \
+  -X POST https://grafana.leazardlabs.site/api/dashboards/db \
+  -d @monitoring/ollama-dashboard.json
+```
+
 ```
 https://grafana.leazardlabs.site
 ```
