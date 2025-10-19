@@ -3,6 +3,7 @@ run-name: "Run_id: ${{ github.run_id }}"
 
 env:
   AWS_REGION: "us-east-1"
+  EKS_NAME: "j-llm"
 
 on:
   push:
@@ -65,11 +66,17 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Configure kubectl
-      uses: aws-actions/configure-eks@v2
-      with:
-        cluster-name: j-llm-dev
-        region: ${{ env.AWS_REGION }}
+      run: |
+        aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.EKS_NAME }}
 
     - name: Deploy to EKS
       run: |
+        kubectl config use-context ${{ env.EKS_NAME }}
+        kubectl create namespace ollama
+
+        # Deploy ollama app and metrics exporter
         kubectl apply -k k8s/app/
+
+        # Deploy Ingresses
+        envsubst < k8s/ingress/ollama.yaml | kubectl apply -f -
+        envsubst < k8s/ingress/grafana.yaml | kubectl apply -f -
