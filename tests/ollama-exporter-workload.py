@@ -2,7 +2,7 @@ import time
 import random
 import requests
 
-URL = "http://localhost:8088/api/generate"
+URL = "https://ollama.leazardlabs.site/exporter/generate"
 
 # List of example prompts
 PROMPTS = [
@@ -13,9 +13,11 @@ PROMPTS = [
     "Summarize the latest news.",
 ]
 
+MODEL = "gemma3:270m"
+
 
 def send_request(prompt):
-    payload = {"model": "gemma3:270m", "prompt": prompt, "stream": False}
+    payload = {"model": MODEL, "prompt": prompt, "stream": False}
     try:
         response = requests.post(URL, json=payload)
         if response.status_code == 200:

@@ -1,4 +1,4 @@
-# This is a simple chat/completion service powered by an LLM
+# PoC of a simple chat/completion service powered by an LLM
 
 ## Requirements
 
@@ -26,23 +26,24 @@ Engines:
 - slim [Ollama](https://github.com/alpine-docker/ollama) (in use)
 - [vLLM](https://docs.vllm.ai/en/latest/)
 
-## HOWTO
+## Deploy EKS infra
 
-### Deploy model/engine to EKS
+Use [j-llm-infra](https://github.com/karshkoff/j-llm-infra/blob/main/README.md)
+
+## Deploy ollama
+
 
 1. Env vars:
 
 ```
 export AWS_PROFILE=ak-dev
-```
-
-```
 export AWS_REGION=us-east-1
+export EKS_NAME=j-llm
+export ALLOW_CIDR=$(curl ifconfig.me)/32
 ```
 
-```
-export EKS_NAME=j-llm
-```
+AWS_PROFILE - [credentials](https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-files.html) for current AWS account
+ALLOW_CIDR - limit inbound traffic for AWS ALB
 
 2. Update kubeconfig
 
@@ -56,71 +57,38 @@ aws eks update-kubeconfig --name ${EKS_NAME} --region ${AWS_REGION} --profile ${
 kubectl config use-context j-llm
 ```
 
-4. Deploy Ollama
+4. Create ollama namespace
 
 ```
-kubectl apply -f deploy
+kubectl create namespace ollama
 ```
 
-5. Deploy ingresses
-
-export ALLOW_IP=
+5. Deploy Ollama
 
 ```
-envsubst < ollama/ollama-ingress.yaml | kubectl apply -f -
+kubectl apply -f k8s/app
+```
+
+6. Deploy ALB listeners
+
+
+```
+envsubst < k8s/ingress/ollama.yaml | kubectl apply -f -
 ```
 
 ```
-envsubst < ollama/monitoring-ingress.yaml | kubectl apply -f -
+envsubst < k8s/ingress/grafana.yaml | kubectl apply -f -
 ```
 
-### Monitoring (move to infra)
+### Demo
+
+1. Verify Ollama endpoints
 
 ```
-helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace=monitoring --create-namespace
+https://ollama.leazardlabs.site/
 ```
 
-### Local test
-
-1. Pull the gemma3:270m model
-
-```
-curl localhost:11434/api/pull -d '{
-  "model": "gemma3:270m",
-}'
-```
-
-(Optional) Ollama API, Generate completion
-
-```
-curl localhost:8088/api/generate -d '{
-  "model": "gemma3:270m",
-  "prompt": "Why is the sky blue?",
-  "stream": false
-}'
-```
-
-2. Pull prometheus metrics
-
-```
-curl localhost:8088/metrics
-```
-
-3. Install open-webui
-
-```
-docker run -d \
-  -p 3030:8080 \
-  -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
-  -v open-webui:/app/backend/data \
-  --name open-webui \
-  --restart always \
-  ghcr.io/open-webui/open-webui:main
-```
-
-### Test 'prod'
-
-1. Ollama pull gemma3:270m
+2. Pull gemma3:270m model
 
 ```
 curl https://ollama.leazardlabs.site/api/pull -d '{
@@ -128,33 +96,7 @@ curl https://ollama.leazardlabs.site/api/pull -d '{
 }'
 ```
 
-2. Verify endpoints
-
-```
-curl https://ollama.leazardlabs.site/api/generate -d '{
-  "model": "gemma3:270m",
-  "prompt": "Why is the sky blue?",
-  "stream": false
-}'
-```
-
-3. Genereate a completion for metrics (ollama-exporter)
-
-```
-curl https://ollama.leazardlabs.site/exporter/generate -d '{
-  "model": "gemma3:270m",
-  "prompt": "Why is the sky blue?",
-  "stream": false
-}'
-```
-
-4. Verify ollama-exporter metrics
-
-```
-curl https://ollama.leazardlabs.site/metrics
-```
-
-5. Connect local openwebui
+3. Test model, connect to local Open-webui
 
 ```
 docker run -d --rm \
@@ -165,6 +107,43 @@ docker run -d --rm \
   ghcr.io/open-webui/open-webui:main
 ```
 
-6. Grafana ingress
+4. Test ollama API
 
+```
+curl https://ollama.leazardlabs.site/api/generate -d '{
+  "model": "gemma3:270m",
+  "prompt": "Why is the sky blue?",
+  "stream": false
+}'
+```
+
+5. Test monitoring (using proxy - ollama-exporter)
+
+Run test workload by:
+
+```
+python tests/ollama-exporter-workload.py
+```
+
+or a single call
+
+```
+curl https://ollama.leazardlabs.site/exporter/generate -d '{
+  "model": "gemma3:270m",
+  "prompt": "Why is the sky blue?",
+  "stream": false
+}'
+```
+
+6. Verify ollama-exporter metrics
+
+```
+curl https://ollama.leazardlabs.site/metrics
+```
+
+
+7. Monitoring dashboard
+
+```
+https://grafana.leazardlabs.site
 ```
