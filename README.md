@@ -32,6 +32,8 @@ Use [j-llm-infra](https://github.com/karshkoff/j-llm-infra/blob/main/README.md)
 
 ## Deploy ollama
 
+The application should be deployed by github actions,
+if any issue use follow steps to deploy:
 
 1. Env vars:
 
