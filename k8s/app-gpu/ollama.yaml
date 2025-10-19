@@ -15,14 +15,20 @@ spec:
       labels:
         app: ollama
     spec:
+      nodeSelector:
+        nvidia.com/gpu: "true"
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
       containers:
       - name: ollama
-        # Ollama lite container only CPU usage
-        image: alpine/ollama
+        image: ollama/ollama
         ports:
           - containerPort: 11434
         resources:
           limits:
+            nvidia.com/gpu: 1
             cpu: "2"
             memory: "8Gi"
           requests:
