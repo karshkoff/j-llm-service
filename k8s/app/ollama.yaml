@@ -13,12 +13,34 @@ spec:
       labels:
         app: ollama
     spec:
+      nodeSelector:
+        role: gpu
+        accelerator: nvidia
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
       containers:
       - name: ollama
         image: alpine/ollama
         ports:
-        - containerPort: 11434
+          - containerPort: 11434
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            cpu: "2"
+            memory: "8Gi"
+          requests:
+            cpu: "1"
+            memory: "4Gi"
       - name: ollama-exporter
         image: karshkoff/ollama-prom-exporter
         ports:
-        - containerPort: 8088
+          - containerPort: 8088
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
