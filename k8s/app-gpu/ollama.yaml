@@ -29,11 +29,11 @@ spec:
         resources:
           limits:
             nvidia.com/gpu: 1
+            cpu: "4"
+            memory: "16Gi"
+          requests:
             cpu: "2"
             memory: "8Gi"
-          requests:
-            cpu: "1"
-            memory: "4Gi"
       - name: ollama-exporter
         image: karshkoff/ollama-prom-exporter
         ports:
