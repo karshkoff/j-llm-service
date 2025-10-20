@@ -17,17 +17,17 @@ spec:
     spec:
       containers:
       - name: ollama
-        # Ollama lite container only CPU usage
+        # lite Ollama container only for CPU usage
         image: alpine/ollama
         ports:
           - containerPort: 11434
         resources:
-          limits:
-            cpu: "2"
-            memory: "8Gi"
           requests:
             cpu: "1"
             memory: "4Gi"
+          limits:
+            cpu: "2"
+            memory: "8Gi"
       - name: ollama-exporter
         image: karshkoff/ollama-prom-exporter
         ports:

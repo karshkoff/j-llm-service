@@ -124,7 +124,7 @@ curl https://ollama.leazardlabs.site/api/generate -d '{
 Run test workload by:
 
 ```
-python tests/ollama-exporter-workload.py
+python monitoring/ollama-exporter-workload.py
 ```
 
 or a single call
