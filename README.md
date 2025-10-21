@@ -121,6 +121,9 @@ curl https://ollama.leazardlabs.site/api/generate -d '{
 
 5. Test monitoring (using proxy - ollama-exporter)
 
+NOTE: Ollama does not support Prometheus /metrics endpoint and we need
+to create a proxy to expose model's metrics
+
 Run test workload by:
 
 ```
