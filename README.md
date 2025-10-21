@@ -1,5 +1,10 @@
 # PoC of a simple chat/completion service powered by an LLM
 
+## Demo
+
+[![🎬 Watch the demo video](assets/demo.png)](https://drive.google.com/file/d/1SEB1VfCo1jsAzhyoItdVonukbtdl5rTI/view?usp=sharing)
+
+
 ## Requirements
 
 ### LLM Model
